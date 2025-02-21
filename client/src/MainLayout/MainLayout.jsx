@@ -21,30 +21,6 @@ const MainLayout = () => {
     setIsNavOpen(!isNavOpen);
   };
   return (
-    // <div className="flex flex-col md:flex-row min-h-screen">
-    //   {/* Mobile Sidebar Toggle */}
-    //   <button
-    //     className="md:hidden p-4 focus:outline-none"
-    //     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-    //   >
-    //     <Menu size={24} />
-    //   </button>
-
-    //   {/* Sidebar */}
-    //   <div
-    //     className={`fixed md:relative inset-y-0 left-0 z-50 bg-white shadow-md min-h-screen transition-transform transform ${
-    //       isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-    //     } md:translate-x-0 md:w-64 w-60`}
-    //   >
-    //     <Sidebar />
-    //   </div>
-
-    //   {/* Main Content */}
-    //   <div className="flex-1 p-4  transition-all">
-    //     <Outlet />
-    //   </div>
-    // </div>
-
     <div className="flex flex-col lg:flex-row h-screen overflow-hidden">
       {/* Left Side Navigation */}
       {user && (

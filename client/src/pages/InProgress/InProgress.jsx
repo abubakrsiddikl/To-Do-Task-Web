@@ -2,7 +2,7 @@ import React from 'react';
 
 const InProgress = () => {
     return (
-        <div>
+        <div className='border'>
             IN InProgress
         </div>
     );
