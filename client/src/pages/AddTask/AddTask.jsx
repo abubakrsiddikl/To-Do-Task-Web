@@ -1,23 +1,13 @@
-// import React from "react";
-// import { CiCirclePlus } from "react-icons/ci";
-
-// const AddTask = () => {
-//   return (
-//     <div className="pl-6 pt-12">
-//       {/* add task card */}
-//       <div className="bg-gray-300 py-10 px-5 w-64 flex items-center justify-center gap-3 rounded-md cursor-pointer hover:bg-gray-400 transition-all">
-//         <CiCirclePlus size={24} className="text-blue-600" />
-//         <h1 className="text-lg font-semibold">Add Task</h1>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AddTask;
-
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddTask = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,7 +16,7 @@ const AddTask = () => {
   } = useForm();
 
   // Form Submit Function
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const formattedTimestamp = new Date().toLocaleString("en-US", {
       year: "numeric",
       month: "long",
@@ -39,9 +29,20 @@ const AddTask = () => {
 
     const newTask = {
       ...data,
-      timestamp: formattedTimestamp, // Formatted Date
+      timestamp: formattedTimestamp,
+      email: user?.email,
     };
     console.log("New Task:", newTask);
+    const res = await axios.post(
+      `${import.meta.env.VITE_server_api}/tasks`,
+      newTask
+    );
+    if (res.data) {
+      toast.success("Task Create Successfull . ")
+      navigate("/manageTask")
+    }
+    
+
     reset();
   };
 
