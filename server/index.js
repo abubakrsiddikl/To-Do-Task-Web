@@ -62,7 +62,7 @@ async function run() {
 
     // task get for specifed user
     app.get("/tasks", async (req, res) => {
-      const {email, category } = req.query;
+      const { email, category } = req.query;
       const result = await tasksCollection
         .find({
           $and: [{ email }, { category }],
@@ -71,12 +71,31 @@ async function run() {
       res.send(result);
     });
 
-    // task update to db
+    // get specifid task to db
     app.get("/tasks/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      console.log(query)
+      console.log(query);
       const result = await tasksCollection.findOne(query);
+      res.send(result);
+    });
+
+    // update task to db
+    app.put("/tasks/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: req.body,
+      };
+      const result = await tasksCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
+    // delete a task to db
+    app.delete("/tasks/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await tasksCollection.deleteOne(filter);
       res.send(result);
     });
   } finally {
