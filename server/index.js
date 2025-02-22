@@ -37,7 +37,7 @@ async function run() {
 
     // collection
     const usersCollection = client.db("taskManager").collection("users");
-    const taskCollection = client.db("taskManager").collection("task");
+    const tasksCollection = client.db("taskManager").collection("task");
 
     // user related api
     app.post("/users/:email", async (req, res) => {
@@ -49,6 +49,26 @@ async function run() {
         return res.send({ message: "user allready exists" });
       }
       const result = await usersCollection.insertOne(user);
+      res.send(result);
+    });
+
+    // task related apis
+    // task save to db
+    app.post("/tasks", async (req, res) => {
+      const task = req.body;
+      const result = await tasksCollection.insertOne(task);
+      res.send(result);
+    });
+
+    // task get for specifed user
+    app.get("/tasks/:email", async (req, res) => {
+      const email = req.params.email;
+      const { category } = req.query;
+      const result = await tasksCollection
+        .find({
+          $and: [{ email }, { category }],
+        })
+        .toArray();
       res.send(result);
     });
   } finally {
