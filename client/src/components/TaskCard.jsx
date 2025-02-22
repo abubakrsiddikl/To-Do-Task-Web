@@ -1,11 +1,22 @@
 import React from "react";
 import { Pencil, Trash, GripVertical, CheckSquare, Square } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useDrag } from "react-dnd";
 
-const TaskCard = ({ task,handleDelete }) => {
-    
+// eslint-disable-next-line react/prop-types
+const TaskCard = ({ task, handleDelete }) => {
+  // create Daragable taskCard
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "TASK",
+    item: { id: task._id },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+
   return (
     <div
+      ref={drag}
       key={task._id}
       className="bg-white shadow-md rounded-xl p-5 transition hover:shadow-lg border border-gray-200"
     >
@@ -24,7 +35,10 @@ const TaskCard = ({ task,handleDelete }) => {
             <Pencil size={18} /> <span className="text-sm">Edit</span>
           </button>
         </Link>
-        <button onClick={()=>handleDelete(task._id)}  className="flex items-center gap-1 text-red-500 hover:text-red-700 transition">
+        <button
+          onClick={() => handleDelete(task._id)}
+          className="flex items-center gap-1 text-red-500 hover:text-red-700 transition"
+        >
           <Trash size={18} /> <span className="text-sm">Delete</span>
         </button>
       </div>

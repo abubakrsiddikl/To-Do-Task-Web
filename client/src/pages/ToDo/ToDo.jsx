@@ -3,10 +3,18 @@ import TaskCard from "../../components/TaskCard";
 import useTasks from "../../hooks/useTasks";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDrop } from "react-dnd";
+import { moveTask } from "../../utils/moveTask";
 
 const ToDo = () => {
   const navigate = useNavigate();
-  const {tasks, setTasks, loading} = useTasks("To-Do");
+  const { tasks, setTasks, loading } = useTasks("To-Do");
+  //handling Drag and Drop
+  const [, drop] = useDrop(() => ({
+    accept: "TASK",
+    drop: (item) => moveTask(item.id, "To-Do", tasks, setTasks),
+  }));
+
   if (loading) return <h1>Loading...</h1>;
 
   const handleDelete = async (id) => {
@@ -22,7 +30,10 @@ const ToDo = () => {
   };
 
   return (
-    <div className="border bg-gray-100 p-6 rounded-xl shadow-lg max-w-lg mx-auto">
+    <div
+      ref={drop}
+      className="border bg-gray-100 p-6 rounded-xl shadow-lg max-w-lg mx-auto"
+    >
       {/* Header */}
       <h1 className="text-center font-bold text-2xl text-gray-800">To-Do</h1>
       <hr className="my-3 border-gray-300" />
