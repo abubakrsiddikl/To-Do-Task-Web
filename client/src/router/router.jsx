@@ -3,6 +3,7 @@ import MainLayout from "../MainLayout/MainLayout";
 import Home from "../pages/Home/Home";
 import AddTask from "../pages/AddTask/AddTask";
 import ManageTask from "../pages/ManageTask/ManageTask";
+import TaskUpdate from "../components/TaskUpdate";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,12 @@ const router = createBrowserRouter([
       {
         path: "/manageTask",
         element: <ManageTask></ManageTask>,
+      },
+      {
+        path: "/tasks/:id",
+        element: <TaskUpdate></TaskUpdate>,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_server_api}/tasks/${params.id}`)
       },
     ],
   },

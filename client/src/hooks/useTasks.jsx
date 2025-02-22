@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import useAuth from "./useAuth";
 
 const useTasks = (category) => {
-  console.log(category);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +26,7 @@ const useTasks = (category) => {
     fetchTask();
   }, [user?.email, category]);
 
-  return [tasks, loading];
+  return {tasks, setTasks, loading};
 };
 
 export default useTasks;
