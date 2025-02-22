@@ -13,9 +13,9 @@ const useTasks = (category) => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_server_api}/tasks/${
+          `${import.meta.env.VITE_server_api}/tasks?email=${
             user?.email
-          }?category=${category}`
+          }&category=${category}`
         );
         setTasks(res.data);
       } catch (err) {

@@ -10,7 +10,7 @@ const Home = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result?.user);
-        navigate("/todo")
+        navigate("/manageTask")
       })
       .catch((err) => console.log(err));
   };
